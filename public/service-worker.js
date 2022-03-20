@@ -26,5 +26,34 @@ self.addEventListener("install", function(event) {
     )
 })
 // activation event
-
+self.addEventListener("activate", function(event){
+    event.waitUntil(
+        caches.keys().then(function(keyList) {
+            let cacheKeepList = keyList.filter(function (key) {
+                return key.indexOf(APP_PREFIX);
+            })
+            cacheKeepList.push(CACHE_NAME);
+            return Promise.all(keyList.map(function(key,i) {
+                if(cacheKeepList.indexOf(key) === -1) {
+                    console.log('deleting cache: ' + keyList[i]);
+                    return caches.delete(keyList[i]);
+                }
+            }));
+        })
+    )
+});
 // fetch event 
+self.addEventListener("fetch", function(event) {
+    console.log ("fetch request: " + event.request.url);
+    event.respondWith(
+        caches.match(event.request).then(function(request) {
+            if (request) {
+                console.log('Responding with cache: ' + event.request.url)
+                return request;
+            } else {
+                console.log("file not cached, fetching: " + event.request.url)
+                return fetch(event.request);
+            }
+        })
+    )
+});
