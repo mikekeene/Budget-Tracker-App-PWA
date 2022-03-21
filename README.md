@@ -11,7 +11,8 @@ This is a budget tracker application built with offline capabilities using the I
 * npm i 
 * npm start
 
-### Screenshots
+### Screenshot
+<img width="826" alt="pwa-app" src="https://user-images.githubusercontent.com/93222787/159193587-1fb44ae7-433c-4058-9647-f77cdc61208e.png">
 
 ### Heroku Application Link:
 https://boiling-everglades-78221.herokuapp.com/
